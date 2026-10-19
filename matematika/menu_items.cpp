@@ -1,55 +1,102 @@
 #include "menu_items.hpp"
-
-#include <cstddef>
 #include "menu_functions.hpp"
 
-const Menu::MenuItem Menu::STUDY_SUMM = {
-    "1 - Хочу научиться складывать", Menu::study_summ, &Menu::STUDY
+const Menu::MenuItem Menu::ART_BACK_TO_MAIN = {
+    "0 — Выйти в главное меню",
+    Menu::go_back,
+    &Menu::ART
 };
 
-const Menu::MenuItem Menu::STUDY_SUBSTRACT = {
-    "2 - Хочу научиться вычитать", Menu::study_substract, &Menu::STUDY
+const Menu::MenuItem Menu::RUSSIAN_MUSICIANS = {
+    "2 — Русские музыканты",
+    Menu::show_not_implemented,
+    &Menu::ART
 };
 
-const Menu::MenuItem Menu::STUDY_MULTIPLY = {
-    "3 - Хочу научиться умножать", Menu::study_multiply, &Menu::STUDY
+const Menu::MenuItem Menu::ARTISTS_GO_BACK = {
+    "0 — Выйти в предыдущее меню",
+    Menu::go_back,
+    &Menu::RUSSIAN_ARTISTS
 };
 
-const Menu::MenuItem Menu::STUDY_DIVIDE = {
-    "4 - Хочу научиться делить", Menu::study_divide, &Menu::STUDY
+
+const Menu::MenuItem Menu::RUBLEV = {
+    "1 — Андрей Иванов сын Рублёв",
+    Menu::show_artist,
+    &Menu::RUSSIAN_ARTISTS
 };
 
-const Menu::MenuItem Menu::STUDY_GO_BACK = {
-    "0 - Выйти в главное меню", Menu::study_go_back, &Menu::STUDY
+const Menu::MenuItem Menu::POLENOV = {
+    "2 — Василий Дмитриевич Поленов",
+    Menu::show_artist,
+    &Menu::RUSSIAN_ARTISTS
+};
+
+const Menu::MenuItem Menu::AIVAZOVSKY = {
+    "3 — Иван Константинович Айвазовский",
+    Menu::show_artist,
+    &Menu::RUSSIAN_ARTISTS
 };
 
 namespace {
-    const Menu::MenuItem* const study_children[] = {
-        &Menu::STUDY_GO_BACK,
-        &Menu::STUDY_SUMM,
-        &Menu::STUDY_SUBSTRACT,
-        &Menu::STUDY_MULTIPLY,
-        &Menu::STUDY_DIVIDE
+    const Menu::MenuItem* const artists_children[] = {
+        &Menu::ARTISTS_GO_BACK,
+        &Menu::RUBLEV,
+        &Menu::POLENOV,
+        &Menu::AIVAZOVSKY
     };
-    const int study_size = sizeof(study_children) / sizeof(study_children[0]);
+
+    const int artists_count =
+        sizeof(artists_children) / sizeof(artists_children[0]);
 }
 
-const Menu::MenuItem Menu::STUDY = {
-    "1 - Хочу учиться математике", Menu::show_menu, &Menu::MAIN, study_children, study_size
+const Menu::MenuItem Menu::RUSSIAN_ARTISTS = {
+    "1 — Русские художники",
+    Menu::show_menu,
+    &Menu::ART,
+    artists_children,
+    artists_count
+};
+
+namespace {
+    const Menu::MenuItem* const art_children[] = {
+        &Menu::ART_BACK_TO_MAIN,
+        &Menu::RUSSIAN_ARTISTS,
+        &Menu::RUSSIAN_MUSICIANS
+    };
+
+    const int art_count =
+        sizeof(art_children) / sizeof(art_children[0]);
+}
+
+const Menu::MenuItem Menu::ART = {
+    "1 — Искусство России",
+    Menu::show_menu,
+    &Menu::MAIN,
+    art_children,
+    art_count
 };
 
 const Menu::MenuItem Menu::EXIT = {
-    "0 - Я лучше пойду полежу", Menu::exit, &Menu::MAIN
+    "0 — Выйти",
+    Menu::exit_program,
+    &Menu::MAIN
 };
 
 namespace {
     const Menu::MenuItem* const main_children[] = {
         &Menu::EXIT,
-        &Menu::STUDY
+        &Menu::ART
     };
-    const int main_size = sizeof(main_children) / sizeof(main_children[0]);
+
+    const int main_count =
+        sizeof(main_children) / sizeof(main_children[0]);
 }
 
 const Menu::MenuItem Menu::MAIN = {
-    nullptr, Menu::show_menu, nullptr, main_children, main_size
+    "Главное меню",
+    Menu::show_menu,
+    nullptr,
+    main_children,
+    main_count
 };
